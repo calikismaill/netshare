@@ -1,16 +1,20 @@
-# 📡 NetShare Pro — Modern & Minimalist WiFi Hotspot Manager
+# 📡 NetShare Pro — Modern & Standalone WiFi Hotspot Manager
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
 ![GTK3](https://img.shields.io/badge/GUI-GTK3-green.svg)
 ![Linux](https://img.shields.io/badge/Platform-Linux-orange.svg)
+![Standalone](https://img.shields.io/badge/Standalone-100%25-brightgreen.svg)
 ![License](https://img.shields.io/badge/License-MIT-purple.svg)
 
-**NetShare Pro**, Linux sistemlerinde (`create_ap` backend servisini kullanarak) saniyeler içinde güçlü, güvenli ve modern bir WiFi Hotspot (Erişim Noktası) oluşturmanızı sağlayan hafif ve performanslı bir masaüstü uygulamasıdır.
+**NetShare Pro**, Linux sistemlerinde harici hiçbir GUI paketine ihtiyaç duymadan saniyeler içinde güçlü, güvenli ve modern bir WiFi Hotspot (Erişim Noktası) oluşturmanızı sağlayan %100 bağımsız masaüstü uygulamasıdır.
+
+Kendi dahili motoru (`create_ap` betiği ve systemd servisi) ile birlikte gelir. Harici `wihotspot` veya AUR paketleri gerektirmez.
 
 ---
 
 ## 🌟 Özellikler
 
+- **⚡ %100 Bağımsız & Standalone**: Harici GUI veya AUR paketlerine (`wihotspot`) ihtiyaç duymaz. Kendi motorunu sisteme kurar.
 - **🎨 Modern & Minimalist Arayüz**: Sabit `Gtk.Stack` sekmeli düzeni ile pencere zıplaması veya kayma yapmayan temiz görünüm.
 - **⚡ Anında & Donmasız İşlem**: Arka plan thread mimarisi ve parolasız `sudo -n` entegrasyonu sayesinde donma veya gecikme yaşanmaz.
 - **📱 Bağlı Cihaz Yönetimi**: Hotspot'a bağlanan cihazların Adı (Hostname), IP adresi ve MAC adresini tek tıkla panoya kopyalayabilme.
@@ -31,34 +35,33 @@
 
 ## 📋 Bağımlılıklar (Requirements)
 
-Uygulamanın çalışabilmesi için aşağıdaki paketlerin sisteminizde yüklü olması gerekir:
+Uygulama kendi motoruyla geldiği için sadece resmi depolarda bulunan standart ağ paketlerine ihtiyaç duyar:
 
 - `python3` & `python-gobject` (`python3-gi`)
-- `linux-wifi-hotspot` (veya `create_ap`)
+- `hostapd`
+- `dnsmasq`
+- `iptables`
 - `qrencode`
-- `libayatana-appindicator3`
 
 ### 📦 Dağıtımlara Göre Paket Kurulumu:
 
 #### Arch Linux / Manjaro:
 ```bash
-sudo pacman -S qrencode linux-wifi-hotspot python-gobject
+sudo pacman -S hostapd dnsmasq iptables qrencode python-gobject
 ```
 
 #### Ubuntu / Debian / Pop!_OS:
 ```bash
 sudo apt update
-sudo apt install qrencode linux-wifi-hotspot python3-gi gir1.2-ayatanaappindicator3-0.1
+sudo apt install hostapd dnsmasq iptables qrencode python3-gi gir1.2-ayatanaappindicator3-0.1
 ```
 
 ---
 
 ## 🚀 Hızlı Kurulum
 
-Projeyi klonlayıp otomatik kurulum betiğini çalıştırabilirsiniz:
-
 ```bash
-git clone https://github.com/KULLANICI_ADINIZ/netshare.git
+git clone https://github.com/calikismaill/netshare.git
 cd netshare
 chmod +x install.sh
 ./install.sh
@@ -70,7 +73,7 @@ Kurulum tamamlandıktan sonra terminalden `netshare` yazarak veya uygulama menü
 
 ## 🗑️ Kaldırma (Uninstall)
 
-Uygulamayı sisteminizden kaldırmak için:
+Uygulamayı ve servis yapılandırmasını silmek için:
 
 ```bash
 ./uninstall.sh
