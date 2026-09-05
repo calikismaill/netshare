@@ -43,11 +43,11 @@ if [ ${#missing_deps[@]} -ne 0 ]; then
 fi
 
 # 3. Arka Plan Motorunu (create_ap) Sisteme Kur
-echo -e "${GREEN}[2/5] Standalone Hotspot Motoru (create_ap) kuruluyor...${NC}"
-if [ ! -f /usr/bin/create_ap ] && [ ! -f /usr/local/bin/create_ap ]; then
+echo -e "${GREEN}[2/5] Standalone Hotspot Motoru (/usr/bin/create_ap) kuruluyor...${NC}"
+if [ ! -f /usr/bin/create_ap ]; then
     echo "create_ap motoru kuruluyor (sudo şifreniz istenebilir)..."
-    sudo cp -f src/backend/create_ap /usr/local/bin/create_ap
-    sudo chmod +x /usr/local/bin/create_ap
+    sudo cp -f src/backend/create_ap /usr/bin/create_ap
+    sudo chmod +x /usr/bin/create_ap
     sudo cp -f src/backend/create_ap.service /etc/systemd/system/create_ap.service
     sudo systemctl daemon-reload
     echo -e "${GREEN}✓ create_ap motoru ve systemd servisi kuruldu.${NC}"
@@ -88,7 +88,7 @@ chmod +x "$DESKTOP_DIR/netshare.desktop"
 # 6. Sudoers İznini Yapılandır
 echo -e "${GREEN}[5/5] Sudoers servis izinleri yapılandırılıyor...${NC}"
 SUDOERS_FILE="/etc/sudoers.d/netshare"
-SUDOERS_RULE="$USER ALL=(ALL) NOPASSWD: /usr/bin/systemctl * create_ap, /usr/bin/tee /etc/create_ap.conf, /usr/bin/create_ap *, /usr/local/bin/create_ap *"
+SUDOERS_RULE="$USER ALL=(ALL) NOPASSWD: /usr/bin/systemctl * create_ap, /usr/bin/tee /etc/create_ap.conf, /usr/bin/create_ap *"
 
 if [ ! -f "$SUDOERS_FILE" ]; then
     echo "Parolasız servis başlatma izni eklendi:"
@@ -99,10 +99,9 @@ else
     echo -e "${GREEN}✓ Sudoers izni zaten mevcut.${NC}"
 fi
 
-echo -e "\n${GREEN}===========================================${NC}"
+echo -e "\n${GREEN}===========================================%s${NC}"
 echo -e "${GREEN}  NetShare Pro %100 Bağımsız Olarak Kuruldu!  ${NC}"
 echo -e "${GREEN}===========================================${NC}"
-echo -e "Artık wihotspot veya harici GUI paketlerine ihtiyacınız yoktur."
 echo -e "Uygulamayı çalıştırmak için:"
 echo -e "  - Terminalden: ${BLUE}netshare${NC}"
 echo -e "  - Veya uygulama menünüzden NetShare Pro'yu aratabilirsiniz."
