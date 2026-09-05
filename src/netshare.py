@@ -192,7 +192,7 @@ headerbar .title {
     transition: all 200ms ease;
 }
 .status-active {
-    background-color: linear-gradient(135deg, #064E3B, #0B3B2E);
+    background-image: linear-gradient(135deg, #064E3B, #0B3B2E);
     border-color: rgba(16,185,129,0.5);
 }
 .status-inactive {
