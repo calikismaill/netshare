@@ -632,8 +632,10 @@ class NetShareApp(Gtk.Application):
         self.overlay = Gtk.Overlay()
 
         root = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
-        root.pack_start(self._build_sidebar(), False, False, 0)
-        root.pack_start(self._build_stack(), True, True, 0)
+        sidebar = self._build_sidebar()
+        stack_wrapper = self._build_stack()
+        root.pack_start(sidebar, False, False, 0)
+        root.pack_start(stack_wrapper, True, True, 0)
 
         self.overlay.add(root)
         self.overlay.add_overlay(self._build_toast())
@@ -641,6 +643,9 @@ class NetShareApp(Gtk.Application):
         self.window.add(self.overlay)
         self.window.show_all()
         self.toast_revealer.set_reveal_child(False)
+
+        # Select first nav row after stack is initialized
+        self.nav_list.select_row(self.nav_list.get_row_at_index(0))
 
     def _build_sidebar(self):
         sidebar = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -699,10 +704,6 @@ class NetShareApp(Gtk.Application):
         footer.pack_start(btn_tray, False, False, 0)
 
         sidebar.pack_start(footer, False, False, 0)
-
-        # select first row by default
-        self.nav_list.select_row(self.nav_list.get_row_at_index(0))
-
         return sidebar
 
     def _build_toast(self):
@@ -742,7 +743,8 @@ class NetShareApp(Gtk.Application):
         self._toast_timer_id = GLib.timeout_add(duration_ms, _hide)
 
     def _on_nav_selected(self, listbox, row):
-        if row is None:
+        if row is None or not hasattr(self, 'content_stack'):
+            return
             return
         self.content_stack.set_visible_child_name(row.nav_key)
         self.page_title_lbl.set_text(dict(NAV_PAGES)[row.nav_key])
