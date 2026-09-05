@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.bak
+*.png
+*.svg.bak
+.DS_Store
+.idea/
+.vscode/
