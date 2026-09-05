@@ -1614,7 +1614,7 @@ class NetShareApp(Gtk.Application):
         self.status_sub.set_text("Ayarlar kaydediliyor ve hotspot yayını başlatılıyor")
 
         freq_idx = self.combo_freq.get_active()
-        freq = "auto" if freq_idx == 0 else ("2.4" if freq_idx == 1 else "5")
+        freq = "2.4" if freq_idx in [0, 1] else "5"
         channel = self.entry_channel.get_text().strip() or "8"
         gateway = self.entry_gateway.get_text().strip() or "192.168.12.1"
         mac = self.entry_mac.get_text().strip()
